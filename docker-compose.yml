@@ -1,10 +1,10 @@
 version: '3'
 
 networks:
-  laravel:
+  app-net:
 
 services:
-  site:
+  laravel-app:
     build:
       context: ./dockerfiles
       dockerfile: nginx.dockerfile
@@ -22,24 +22,24 @@ services:
       - mysql
       - mailhog
     networks:
-      - laravel
+      - app-net
 
   mysql:
-    image: mariadb:10.6
+    image: mysql:8.0.29
     container_name: mysql
     restart: unless-stopped
     tty: true
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
-      SERVICE_TAGS: dev
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SERVICE_TAGS: ${SERVICE_TAGS}
       SERVICE_NAME: mysql
     networks:
-      - laravel
+      - app-net
 
   php:
     build:
@@ -52,7 +52,7 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     networks:
-      - laravel
+      - app-net
 
   redis:
     image: redis:alpine
@@ -61,7 +61,7 @@ services:
     ports:
       - 6379:6379
     networks:
-      - laravel
+      - app-net
 
   composer:
     build:
@@ -79,7 +79,7 @@ services:
     user: laravel
     entrypoint: ['composer', '--ignore-platform-reqs']
     networks:
-      - laravel
+      - app-net
 
   npm:
     image: node:13.7
@@ -92,7 +92,7 @@ services:
     working_dir: /var/www/html
     entrypoint: ['npm']
     networks:
-      - laravel
+      - app-net
 
   artisan:
     build:
@@ -109,7 +109,7 @@ services:
     working_dir: /var/www/html
     entrypoint: ['php', '/var/www/html/artisan']
     networks:
-      - laravel
+      - app-net
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -118,4 +118,4 @@ services:
       - 1025:1025
       - 8025:8025
     networks:
-      - laravel
+      - app-net
