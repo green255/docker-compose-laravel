@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 networks:
   app-net:
@@ -13,7 +13,7 @@ services:
         - GID=${GID:-1000}
     container_name: nginx
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
@@ -45,10 +45,13 @@ services:
     build:
       context: ./dockerfiles
       dockerfile: php.dockerfile
+      target: ${ENVIRONMENT}
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     container_name: php
+    environment:
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG?}
     volumes:
       - ./src:/var/www/html:delegated
     networks:
@@ -98,10 +101,13 @@ services:
     build:
       context: ./dockerfiles
       dockerfile: php.dockerfile
+      target: ${ENVIRONMENT}
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     container_name: artisan
+    environment:
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG?}
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:

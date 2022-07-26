@@ -23,7 +23,7 @@ Three additional containers are included that handle Composer, NPM, and Artisan 
 
 - `docker-compose run --rm composer update`
 - `docker-compose run --rm npm run dev`
-- `docker-compose run --rm artisan migrate` > the laravel database .env settings must match those used in for database creation
+- `docker-compose run --rm artisan migrate` || *the laravel database .env settings must match those in the docker .env*
 
 ## Permissions Issues
 

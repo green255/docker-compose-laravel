@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:stable-alpine AS base
 
 ARG UID
 ARG GID
@@ -16,3 +16,15 @@ RUN sed -i "s/user  nginx/user laravel/g" /etc/nginx/nginx.conf
 ADD ./nginx/default.conf /etc/nginx/conf.d/
 
 RUN mkdir -p /var/www/html
+
+
+FROM base as dev
+
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && pecl install xdebug-3.1.5 \
+    && docker-php-ext-enable xdebug
+
+COPY php.xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+
+FROM base as prod
