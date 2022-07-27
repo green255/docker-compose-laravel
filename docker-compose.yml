@@ -2,9 +2,15 @@ version: '3.4'
 
 networks:
   app-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
 
 services:
-  laravel-app:
+  nginx:
     build:
       context: ./dockerfiles
       dockerfile: nginx.dockerfile
@@ -22,7 +28,8 @@ services:
       - mysql
       - mailhog
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.2
 
   mysql:
     image: mysql:8.0.29
@@ -39,7 +46,8 @@ services:
       SERVICE_TAGS: ${SERVICE_TAGS}
       SERVICE_NAME: mysql
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.4
 
   php:
     build:
@@ -55,7 +63,8 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.3
 
   redis:
     image: redis:alpine
@@ -64,7 +73,8 @@ services:
     ports:
       - 6379:6379
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.6
 
   composer:
     build:
@@ -82,7 +92,8 @@ services:
     user: laravel
     entrypoint: ['composer', '--ignore-platform-reqs']
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.8
 
   npm:
     image: node:13.7
@@ -95,7 +106,8 @@ services:
     working_dir: /var/www/html
     entrypoint: ['npm']
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.9
 
   artisan:
     build:
@@ -115,7 +127,8 @@ services:
     working_dir: /var/www/html
     entrypoint: ['php', '/var/www/html/artisan']
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.7
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -124,4 +137,5 @@ services:
       - 1025:1025
       - 8025:8025
     networks:
-      - app-net
+      app-net:
+        ipv4_address: 172.20.0.5

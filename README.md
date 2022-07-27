@@ -7,7 +7,7 @@ To get started, make sure you have [Docker installed](https://docs.docker.com/do
 
 Then, ensure that the docker environment variables (<project root>/.env) are correct for your setup. 
 
-Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose up --build laravel-app`.
+Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose up --build`.
 
 After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
 
