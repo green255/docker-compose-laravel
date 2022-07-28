@@ -18,10 +18,14 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     container_name: nginx
+    expose:
+        - "80"
+        - "443"
     ports:
-      - "80:80"
+        - "443:443"
+        - "80:80"
     volumes:
-      - ./:/var/www/html:delegated
+      - ./public:/var/www/src/public:delegated
     depends_on:
       - php
       - redis
@@ -61,7 +65,7 @@ services:
     environment:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG?}
     volumes:
-      - ./:/var/www/html:delegated
+      - ./:/var/www/src:delegated
     networks:
       app-net:
         ipv4_address: 172.20.0.3
@@ -85,8 +89,8 @@ services:
         - GID=${GID:-1000}
     container_name: composer
     volumes:
-      - ./:/var/www/html
-    working_dir: /var/www/html
+      - ./:/var/www/src
+    working_dir: /var/www/src
     depends_on:
       - php
     user: laravel
@@ -99,11 +103,11 @@ services:
     image: node:13.7
     container_name: npm
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www/src
     ports:
       - 3000:3000
       - 3001:3001
-    working_dir: /var/www/html
+    working_dir: /var/www/src
     entrypoint: ['npm']
     networks:
       app-net:
@@ -121,11 +125,11 @@ services:
     environment:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG?}
     volumes:
-      - ./:/var/www/html:delegated
+      - ./:/var/www/src:delegated
     depends_on:
       - mysql
-    working_dir: /var/www/html
-    entrypoint: ['php', '/var/www/html/artisan']
+    working_dir: /var/www/src
+    entrypoint: ['php', '/var/www/src/artisan']
     networks:
       app-net:
         ipv4_address: 172.20.0.7

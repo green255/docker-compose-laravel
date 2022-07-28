@@ -1,8 +1,8 @@
 FROM php:8-fpm-alpine
 
-RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/src
 
-WORKDIR /var/www/html
+WORKDIR /var/www/src
 
 RUN sed -i "s/user = www-data/user = root/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/group = www-data/group = root/g" /usr/local/etc/php-fpm.d/www.conf

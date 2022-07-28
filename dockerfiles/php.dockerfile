@@ -6,9 +6,9 @@ ARG GID
 ENV UID=${UID}
 ENV GID=${GID}
 
-RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/src
 
-WORKDIR /var/www/html
+WORKDIR /var/www/src
 
 # MacOS staff group's gid is 20, so is the dialout group in alpine linux. We're not using it, let's just remove it.
 RUN delgroup dialout
