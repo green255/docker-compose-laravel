@@ -3,27 +3,43 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 
 ## Usage
 
-To get started, make sure you have [Docker installed](https://docs.docker.com/docker-for-mac/install/) on your system, and then clone this repository.
+### Setting up the Docker configuration 
+1. Have [Docker installed](https://docs.docker.com/docker-for-mac/install/) and running
+2. Clone this repo into your project's directory ```git clone https://github.com/green255/docker-compose-laravel.git <my project dir>```
+3. Ensure that the docker environment variables (<project root>/.env) are correct for your setup.
+4. With your terminal in the project directory spin up the containers for the application by running `docker-compose up --build nginx`.  
+   (Bringing up the Docker Compose network with `nginx` instead of just using `up`, ensures that only our site's containers are brought up at the start instead of all of the command containers as well)
 
-Then, ensure that the docker environment variables (<project root>/.env) are correct for your setup. 
+### Migrating Project's Code
+Before following either of the subsequent paths you will need to run the following:  
+```chmod 755 setup.sh```
 
-Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose up --build`.
+#### Migrate a Fresh Laravel Instance
+1. Run ```composer create-project --ignore-platform-reqs --remove-vcs laravel/laravel laravel "^9.0"```  
+(substitute your laravel version of choice)
+2. Run ```./setup.sh``` 
 
-After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
+#### Migrate an Existing Project's Codebase
+1. Add the .env variables from your project into the present .env file
+2. Clone your project into a folder named ```laravel```
+3. Run ```./setup.sh```  
+Note: If your project requires a version of php less than 8, then ```dockerfiles/php.dockerfile``` will need to be modified to reflect that
 
-Bringing up the Docker Compose network with `site` instead of just using `up`, ensures that only our site's containers are brought up at the start, instead of all of the command containers as well. The following are built for our web server, with their exposed ports detailed:
-
-- **nginx** - `:80`
-- **mysql** - `:3306`
-- **php** - `:9000`
-- **redis** - `:6379`
-- **mailhog** - `:8025` 
-
+### Service Containers
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
 
 - `docker-compose run --rm composer update`
 - `docker-compose run --rm npm run dev`
-- `docker-compose run --rm artisan migrate` || *the laravel database .env settings must match those in the docker .env*
+- `docker-compose run --rm artisan migrate`  
+(*remember your laravel database credentials must match those used when the docker containers were built - refer to the laravel & docker sections in .env*)
+
+### Port Availabilty
+The following are built for our web server, with their exposed ports detailed:
+- **nginx** - `:80 & :443`
+- **mysql** - `:3306`
+- **php** - `:9000`
+- **redis** - `:6379`
+- **mailhog** - `:8025`
 
 ## Permissions Issues
 
@@ -46,14 +62,14 @@ Then, either bring back up your container network or re-run the command you were
 
 ## Persistent MySQL Storage
 
-By default, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
+Without persistent storage, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
 
-1. Create a `mysql` folder in the project root, alongside the `nginx` and `src` folders.
+1. Create a `mysql` folder in dockerfiles/ alongside the `nginx` and `src` folders.
 2. Under the mysql service in your `docker-compose.yml` file, add the following lines:
 
 ```
 volumes:
-  - ./mysql:/var/lib/mysql
+  - ./dockerfiles/mysql:/var/lib/mysql
 ```
 
 ## Using BrowserSync with Laravel Mix
