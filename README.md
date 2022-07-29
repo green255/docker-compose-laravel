@@ -17,13 +17,14 @@ Before following either of the subsequent paths you will need to run the followi
 #### Migrate a Fresh Laravel Instance
 1. Run ```composer create-project --ignore-platform-reqs --remove-vcs laravel/laravel laravel "^9.0"```  
 (substitute your laravel version of choice)
-2. Run ```./setup.sh``` 
 
 #### Migrate an Existing Project's Codebase
 1. Add the .env variables from your project into the present .env file
 2. Clone your project into a folder named ```laravel```
-3. Run ```./setup.sh```  
 Note: If your project requires a version of php less than 8, then ```dockerfiles/php.dockerfile``` will need to be modified to reflect that
+
+#### Finishing Migration
+1. Run ```./setup.sh``` - this file can then be deleted
 
 ### Service Containers
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
