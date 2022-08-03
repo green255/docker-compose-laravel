@@ -7,8 +7,6 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 1. Have [Docker installed](https://docs.docker.com/docker-for-mac/install/) and running
 2. Clone this repo into your project's directory ```git clone https://github.com/green255/docker-compose-laravel.git <my project dir>```
 3. Ensure that the docker environment variables (<project root>/setup.env) are correct for your setup.
-4. With your terminal in the project directory spin up the containers for the application by running `docker-compose up --build nginx`.  
-   (Bringing up the Docker Compose network with `nginx` instead of just using `up`, ensures that only our site's containers are brought up at the start instead of all of the command containers as well, but it's okay to leave it out also)
 
 ### Incorporating Project's Code
 Before following either of the subsequent paths you will need to run the following:  
@@ -26,6 +24,10 @@ Before following either of the subsequent paths you will need to run the followi
 
 #### Finishing Migration
 1. Run ```./setup.sh``` - after running this file can be deleted
+
+#### Starting Docker
+With your terminal at the project root spin up the containers for the application by running `docker-compose up --build nginx`.
+(Bringing up the Docker Compose network with `nginx` instead of just using `up`, ensures that only our site's containers are brought up at the start instead of all of the command containers as well, but it's okay to leave it out also)
 
 ### Service Containers
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
