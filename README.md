@@ -6,22 +6,22 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 ### Setting up the Docker configuration 
 1. Have [Docker installed](https://docs.docker.com/docker-for-mac/install/) and running
 2. Clone this repo into your project's directory ```git clone https://github.com/green255/docker-compose-laravel.git <my project dir>```
-3. Ensure that the docker environment variables (<project root>/.env) are correct for your setup.
+3. Ensure that the docker environment variables (<project root>/setup.env) are correct for your setup.
 4. With your terminal in the project directory spin up the containers for the application by running `docker-compose up --build nginx`.  
-   (Bringing up the Docker Compose network with `nginx` instead of just using `up`, ensures that only our site's containers are brought up at the start instead of all of the command containers as well)
+   (Bringing up the Docker Compose network with `nginx` instead of just using `up`, ensures that only our site's containers are brought up at the start instead of all of the command containers as well, but it's okay to leave it out also)
 
-### Migrating Project's Code
+### Incorporating Project's Code
 Before following either of the subsequent paths you will need to run the following:  
 ```chmod 755 setup.sh```
 
-#### Migrate a Fresh Laravel Instance
+#### Fresh Laravel Instance
 1. Run ```composer create-project --ignore-platform-reqs --remove-vcs laravel/laravel laravel "^9.0"```  
 (substitute your laravel version of choice)
 
 #### Migrate an Existing Project's Codebase
-1. Add the .env variables from your project into the present .env file
+1. Add the .env variables from your project into setup.env 
 2. Clone your project into a folder named ```laravel```
-Note: If your project requires a version of php less than 8, then ```dockerfiles/php.dockerfile``` will need to be modified to reflect that
+Note: If your project requires a version of php less than 8.1, check the other branches of this repo. If your version does not exist, then ```dockerfiles/php.dockerfile``` will need to be modified to incorporate your version.
 
 #### Finishing Migration
 1. Run ```./setup.sh``` - this file can then be deleted
@@ -63,15 +63,8 @@ Then, either bring back up your container network or re-run the command you were
 
 ## Persistent MySQL Storage
 
-Without persistent storage, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
-
-1. Create a `mysql` folder in dockerfiles/ alongside the `nginx` and `src` folders.
-2. Under the mysql service in your `docker-compose.yml` file, add the following lines:
-
-```
-volumes:
-  - ./dockerfiles/mysql:/var/lib/mysql
-```
+Persistent database storage is enabled out of the box in this configuration. The source volume by default is ```./dockerfiles/mysql``` and otherwise can be found in the mysql section of ```docker-compose.yml```.
+To purge this data simply delete the file(s) within that directory, but leave the .gitignore file.
 
 ## Using BrowserSync with Laravel Mix
 

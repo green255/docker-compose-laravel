@@ -49,6 +49,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SERVICE_TAGS: ${SERVICE_TAGS}
       SERVICE_NAME: mysql
+    volumes:
+        - ./dockerfiles/mysql:/var/lib/mysql
     networks:
       app-net:
         ipv4_address: 172.20.0.4
