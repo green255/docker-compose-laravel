@@ -1,4 +1,4 @@
-FROM php:8-fpm-alpine
+FROM php:7.4-fpm-alpine
 
 RUN mkdir -p /var/www/src
 
