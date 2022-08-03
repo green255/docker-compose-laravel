@@ -3,7 +3,7 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 
 ## Usage
 
-### Setting up the Docker configuration 
+### Setting up the Docker configuration
 1. Have [Docker installed](https://docs.docker.com/docker-for-mac/install/) and running
 2. Clone this repo into your project's directory ```git clone https://github.com/green255/docker-compose-laravel.git <my project dir>```
 3. Ensure that the docker environment variables (<project root>/setup.env) are correct for your setup.
@@ -15,16 +15,17 @@ Before following either of the subsequent paths you will need to run the followi
 ```chmod 755 setup.sh```
 
 #### Fresh Laravel Instance
+(you will need composer installed on your host machine to run the following)
 1. Run ```composer create-project --ignore-platform-reqs --remove-vcs laravel/laravel laravel "^9.0"```  
-(substitute your laravel version of choice)
+   (substitute your laravel version of choice)
 
 #### Migrate an Existing Project's Codebase
-1. Add the .env variables from your project into setup.env 
+1. Add the .env variables from your project into setup.env
 2. Clone your project into a folder named ```laravel```
-Note: If your project requires a version of php less than 8.1, check the other branches of this repo. If your version does not exist, then ```dockerfiles/php.dockerfile``` will need to be modified to incorporate your version.
+   Note: If your project requires a version of php other than 8.1, check the other branches of this repo. If your version does not exist, then ```dockerfiles/php.dockerfile``` will need to be modified to incorporate your version.
 
 #### Finishing Migration
-1. Run ```./setup.sh``` - this file can then be deleted
+1. Run ```./setup.sh``` - after running this file can be deleted
 
 ### Service Containers
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
@@ -32,7 +33,7 @@ Three additional containers are included that handle Composer, NPM, and Artisan 
 - `docker-compose run --rm composer update`
 - `docker-compose run --rm npm run dev`
 - `docker-compose run --rm artisan migrate`  
-(*remember your laravel database credentials must match those used when the docker containers were built - refer to the laravel & docker sections in .env*)
+  (*remember your laravel database credentials must match those used when the docker containers were built - refer to the laravel & docker sections in .env*)
 
 ### Port Availabilty
 The following are built for our web server, with their exposed ports detailed:
