@@ -26,7 +26,8 @@ Before following either of the subsequent paths you will need to run the followi
 1. Run ```./setup.sh``` - after running this file can be deleted
 
 #### Starting Docker
-With your terminal at the project root spin up the containers for the application by running `docker-compose up --build nginx`.
+With your terminal at the project root spin up the containers for the application by running:  
+`docker-compose up --build nginx`  
 (Bringing up the Docker Compose network with `nginx` instead of just using `up`, ensures that only our site's containers are brought up at the start instead of all of the command containers as well, but it's okay to leave it out also)
 
 ### Service Containers
