@@ -5,7 +5,7 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 
 ### Setting up the Docker configuration
 1. Have [Docker installed](https://docs.docker.com/docker-for-mac/install/) and running
-2. Clone this repo into your project's directory ```git clone https://github.com/green255/docker-compose-laravel.git <my project dir>```
+2. Clone this repo into your project's directory ```git clone https://github.com/green255/docker-compose-laravel.git --branch php7-4 <my project dir>```
 3. Ensure that the docker environment variables (<project root>/setup.env) are correct for your setup.
 
 ### Incorporating Project's Code
@@ -14,8 +14,8 @@ Before following either of the subsequent paths you will need to run the followi
 
 #### Fresh Laravel Instance
 (you will need composer installed on your host machine to run the following)
-1. Run ```composer create-project --ignore-platform-reqs --remove-vcs laravel/laravel laravel "^9.0"```  
-   (substitute your laravel version of choice)
+1. Run ```composer create-project --ignore-platform-reqs --remove-vcs laravel/laravel laravel "8.x"```  
+   (Note: Laravel version 8 is the last that supports php 7)
 
 #### Migrate an Existing Project's Codebase
 1. Add the .env variables from your project into setup.env
