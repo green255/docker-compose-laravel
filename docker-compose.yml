@@ -41,7 +41,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - 3306:3306
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -77,7 +77,7 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - 6379:6379
+      - "6379:6379"
     networks:
       app-net:
         ipv4_address: 172.20.0.6
@@ -96,7 +96,7 @@ services:
     depends_on:
       - php
     user: laravel
-    entrypoint: ['composer', '--ignore-platform-reqs']
+    entrypoint: ['composer']
     networks:
       app-net:
         ipv4_address: 172.20.0.8
@@ -107,8 +107,8 @@ services:
     volumes:
       - ./:/var/www/src
     ports:
-      - 3000:3000
-      - 3001:3001
+      - "3000:3000"
+      - "3001:3001"
     working_dir: /var/www/src
     entrypoint: ['npm']
     networks:
@@ -140,8 +140,8 @@ services:
     image: mailhog/mailhog:latest
     container_name: mailhog
     ports:
-      - 1025:1025
-      - 8025:8025
+      - "1025:1025"
+      - "8025:8025"
     networks:
       app-net:
         ipv4_address: 172.20.0.5
