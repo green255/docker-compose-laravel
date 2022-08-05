@@ -10,11 +10,12 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 
 ### Incorporating Project's Code
 Before following either of the subsequent paths you will need to run the following:  
-```chmod 755 setup.sh```
+1. ```chmod 755 setup.sh```
+2. rename setup.env to .env
 
 #### Fresh Laravel Instance
 (you will need composer installed on your host machine to run the following)
-1. Run ```composer create-project --ignore-platform-reqs --remove-vcs laravel/laravel laravel "8.x"```  
+1. Run ```docker-composer run --rm composer create-project --remove-vcs laravel/laravel laravel "8.x"```  
    (Note: Laravel version 8 is the last that supports php 7)
 
 #### Migrate an Existing Project's Codebase
@@ -27,8 +28,7 @@ Before following either of the subsequent paths you will need to run the followi
 
 #### Starting Docker
 With your terminal at the project root spin up the containers for the application by running:  
-`docker-compose up --build nginx`  
-(Bringing up the Docker Compose network with `nginx` instead of just using `up`, ensures that only our site's containers are brought up at the start instead of all of the command containers as well, but it's okay to leave it out also)
+`docker-compose up --build`  
 
 ### Service Containers
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
