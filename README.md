@@ -10,8 +10,7 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 
 ### Incorporating Project's Code
 Before following either of the subsequent paths you will need to run the following:  
-1. ```chmod 755 setup.sh```
-2. rename setup.env to .env
+1. rename setup.env to .env
 
 #### Fresh Laravel Instance
 1. Run ```docker-composer run --rm composer create-project --remove-vcs laravel/laravel laravel "8.x"```  
@@ -24,6 +23,7 @@ Before following either of the subsequent paths you will need to run the followi
 
 #### Finishing Migration
 1. Run ```./setup.sh``` - after running this file can be deleted
+2. Run ```docker-compose run --rm artisan key:generate```
 
 #### Starting Docker
 With your terminal at the project root spin up the containers for the application by running:  
