@@ -37,6 +37,11 @@ Three additional containers are included that handle Composer, NPM, and Artisan 
 - `docker-compose run --rm artisan migrate`  
   (*remember your laravel database credentials must match those used when the docker containers were built - refer to the laravel & docker sections in .env*)
 
+### Enabling HTTPS Access (optional)
+Install mkcert and follow the steps found here  
+https://github.com/FiloSottile/mkcert
+Modify your ```nginx.dockerfile``` to copy the resulting files to the correct location
+
 ### Port Availabilty
 The following are built for our web server, with their exposed ports detailed:
 - **nginx** - `:80 & :443`

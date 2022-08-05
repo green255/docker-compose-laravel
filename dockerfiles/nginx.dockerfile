@@ -13,10 +13,11 @@ RUN addgroup -g ${GID} --system laravel
 RUN adduser -G laravel --system -D -s /bin/sh -u ${UID} laravel
 RUN sed -i "s/user  nginx/user laravel/g" /etc/nginx/nginx.conf
 
-ADD ./nginx/default.conf /etc/nginx/conf.d/
-
 RUN mkdir -p /var/www/src
 
+# Complete this section per the "Enabling HTTPS Access" step if you want to access your environment with HTTPS
+#COPY dockerfiles/nginx/mydomain+1.pem /etc/nginx/ssl/
+#COPY dockerfiles/nginx/mydomain+1-key.pem /etc/nginx/ssl/
 
 FROM base as dev
 
@@ -26,5 +27,9 @@ RUN apk add --no-cache $PHPIZE_DEPS \
 
 COPY php.xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+ADD ./nginx/port_80_listen.conf /etc/nginx/conf.d/default.conf
+
 
 FROM base as prod
+
+ADD ./nginx/port_80_redirect.conf.conf /etc/nginx/conf.d/default.conf
