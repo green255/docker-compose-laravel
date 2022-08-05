@@ -14,7 +14,6 @@ Before following either of the subsequent paths you will need to run the followi
 2. rename setup.env to .env
 
 #### Fresh Laravel Instance
-(you will need composer installed on your host machine to run the following)
 1. Run ```docker-composer run --rm composer create-project --remove-vcs laravel/laravel laravel "8.x"```  
    (Note: Laravel version 8 is the last that supports php 7)
 
