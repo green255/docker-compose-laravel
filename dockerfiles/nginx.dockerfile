@@ -21,15 +21,9 @@ RUN mkdir -p /var/www/src
 
 FROM base as dev
 
-RUN apk add --no-cache $PHPIZE_DEPS \
-    && pecl install xdebug-3.1.5 \
-    && docker-php-ext-enable xdebug
-
-COPY php.xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
 ADD ./nginx/port_80_listen.conf /etc/nginx/conf.d/default.conf
 
 
 FROM base as prod
 
-ADD ./nginx/port_80_redirect.conf.conf /etc/nginx/conf.d/default.conf
+#COPY ./nginx/port_80_redirect.conf /etc/nginx/conf.d/default.conf
