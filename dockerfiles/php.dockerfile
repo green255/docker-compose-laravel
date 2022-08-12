@@ -41,5 +41,8 @@ RUN apk add --no-cache $PHPIZE_DEPS \
 
 COPY php.xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 FROM base as prod
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
