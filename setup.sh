@@ -6,5 +6,3 @@ rm ./laravel/README.md
 mv ./laravel/* ./
 mv ./laravel/.* ./
 rm -d ./laravel
-mv setup.env .env
-docker-compose run --rm artisan key:generate
