@@ -20,13 +20,15 @@ services:
         - GID=${GID:-1000}
     container_name: nginx
     expose:
-        - "80"
-        - "443"
+      - "80"
+      - "443"
     ports:
-        - "443:443"
-        - "80:80"
+      - "443:443"
+      - "80:80"
     volumes:
       - ./public:/var/www/src/public:delegated
+      - ./dockerfiles/certbot/config:/etc/letsencrypt/live/your.domain:delegated
+      - ./dockerfiles/certbot/challenge:/var/www/src/certbot/challenge:delegated
     depends_on:
       - php
       - redis
@@ -51,7 +53,7 @@ services:
       SERVICE_TAGS: ${SERVICE_TAGS}
       SERVICE_NAME: mysql
     volumes:
-        - ./dockerfiles/mysql:/var/lib/mysql
+      - ./dockerfiles/mysql:/var/lib/mysql
     networks:
       app-net:
         ipv4_address: 172.20.0.4
@@ -103,7 +105,7 @@ services:
         ipv4_address: 172.20.0.8
 
   npm:
-    image: node:13.7
+    image: node:lts-alpine
     container_name: npm
     volumes:
       - ./:/var/www/src
@@ -146,3 +148,13 @@ services:
     networks:
       app-net:
         ipv4_address: 172.20.0.5
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./dockerfiles/certbot/config:/etc/letsencrypt/live/your.domain:delegated
+      - ./dockerfiles/certbot/challenge:/var/www/src/certbot/challenge:delegated
+    networks:
+      app-net:
+        ipv4_address: 172.20.0.10

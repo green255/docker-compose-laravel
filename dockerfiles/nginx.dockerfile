@@ -15,9 +15,7 @@ RUN sed -i "s/user  nginx/user laravel/g" /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/www/src
 
-# Complete this section per the "Enabling HTTPS Access" step if you want to access your environment with HTTPS
-#COPY dockerfiles/nginx/mydomain+1.pem /etc/nginx/ssl/
-#COPY dockerfiles/nginx/mydomain+1-key.pem /etc/nginx/ssl/
+ADD ./nginx/acme_challenge.conf /etc/nginx/snippets/acme_challenge.conf
 
 FROM base as dev
 
@@ -26,4 +24,4 @@ ADD ./nginx/port_80_listen.conf /etc/nginx/conf.d/default.conf
 
 FROM base as prod
 
-#COPY ./nginx/port_80_redirect.conf /etc/nginx/conf.d/default.conf
+ADD ./nginx/port_80_redirect.conf /etc/nginx/conf.d/default.conf

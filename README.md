@@ -7,6 +7,7 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 1. Have [Docker installed](https://docs.docker.com/docker-for-mac/install/) and running
 2. Clone this repo into your project's directory ```git clone https://github.com/green255/docker-compose-laravel.git --branch php7-4 <my project dir>```
 3. Ensure that the docker environment variables (<project root>/setup.env) are correct for your setup.
+4. Perform a find & replace of the string "your.domain" with the domain for this project in **docker-compose.yml** and within the entire **dockerfiles** directory
 
 ### Incorporating Project's Code
 Before following either of the subsequent paths you will need to run the following:  
@@ -33,14 +34,28 @@ With your terminal at the project root spin up the containers for the applicatio
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
 
 - `docker-compose run --rm composer update`
-- `docker-compose run --rm npm run dev`
+- `docker-compose run --rm npm install`
 - `docker-compose run --rm artisan migrate`  
   (*remember your laravel database credentials must match those used when the docker containers were built - refer to the laravel & docker sections in .env*)
 
 ### Enabling HTTPS Access (optional)
+#### Development
 Install mkcert and follow the steps found here  
 https://github.com/FiloSottile/mkcert
 Modify your ```nginx.dockerfile``` to copy the resulting files to the correct location
+#### Production
+Nginx won't start without the dummy certs in place, so when generating an SSL cert using certbot first start ```docker-compose up``` the environment. 
+Then delete the certs in ./dockerfiles/certbot/challenge/config 
+Add an entry into .gitignore to no longer track .pem files
+Run the following command
+```
+docker-compose run --rm certbot certonly --webroot -w /var/www/src/certbot/challenge \
+--dry-run \
+-m your@email.com \
+-d your.domain \
+--rsa-key-size 4096 \
+--agree-tos
+```
 
 ### Port Availabilty
 The following are built for our web server, with their exposed ports detailed:
