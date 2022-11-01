@@ -42,21 +42,27 @@ Three additional containers are included that handle Composer, NPM, and Artisan 
 ### Enabling HTTPS Access (optional)
 #### Development
 Install mkcert and follow the steps found here  
-https://github.com/FiloSottile/mkcert
-Modify your ```nginx.dockerfile``` to copy the resulting files to the correct location
+https://github.com/FiloSottile/mkcert  
+Save the newly generated ```fullchain.pem``` & ```privkey.pem``` files to ```dockerfiles/certbot/config/self_signed/```  
+Ensure that in the Docker section of ```.env``` ENVIRONMENT=dev 
 #### Production
-Nginx won't start without the dummy certs in place, so when generating an SSL cert using certbot first start ```docker-compose up``` the environment. 
-Then delete the certs in ./dockerfiles/certbot/challenge/config 
-Add an entry into .gitignore to no longer track .pem files
-Run the following command
+##### Generating Certs with LetsEncrypt 
+Nginx will not start without certs in place, so in order to generate certs the first time the Docker ENVIRONMENT must still be set as dev.  
+The follow these steps:
+ * Run ```docker-compose up --build```  
+ * Perform a dry-run by utilizing the following command
 ```
 docker-compose run --rm certbot certonly --webroot -w /var/www/src/certbot/challenge \
 --dry-run \
 -m your@email.com \
 -d your.domain \
---rsa-key-size 4096 \
 --agree-tos
 ```
+ * The dry-run should return success, when it does you are ready to make a real request which is done by running the same command without the 'dry-run' argument
+   * If it fails, the first best troubleshooting step is to create a text file in ```dockerfiles/certbot/challenge/.well-known/acme-challenge``` and attempt to access that via your browser. This is essentially replicating the method that LetsEncrypt is verifying the domain.
+ * Upon a successful run of certbot a number of directories & files will have been created within ```dockerfiles/certbot/config/ca_signed``` including the certs
+ * At this time change the Docker ENVIRONMENT=prod
+ * Recreate the nginx container by running the following ```docker-compose up -d --no-deps --force-recreate --build nginx``` 
 
 ### Port Availabilty
 The following are built for our web server, with their exposed ports detailed:

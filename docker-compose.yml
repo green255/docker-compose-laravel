@@ -26,9 +26,10 @@ services:
       - "443:443"
       - "80:80"
     volumes:
-      - ./public:/var/www/src/public:delegated
-      - ./dockerfiles/certbot/config:/etc/letsencrypt/live/your.domain:delegated
-      - ./dockerfiles/certbot/challenge:/var/www/src/certbot/challenge:delegated
+      - ./public:/var/www/src/public
+      - ./dockerfiles/certbot/config/ca_signed:/etc/letsencrypt
+      - ./dockerfiles/certbot/config/self_signed:/etc/nginx/certs
+      - ./dockerfiles/certbot/challenge:/var/www/src/certbot/challenge
     depends_on:
       - php
       - redis
@@ -70,7 +71,7 @@ services:
     environment:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG?}
     volumes:
-      - ./:/var/www/src:delegated
+      - ./:/var/www/src
     networks:
       app-net:
         ipv4_address: 172.20.0.3
@@ -130,7 +131,7 @@ services:
     environment:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG?}
     volumes:
-      - ./:/var/www/src:delegated
+      - ./:/var/www/src
     depends_on:
       - mysql
     working_dir: /var/www/src
@@ -153,8 +154,8 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - ./dockerfiles/certbot/config:/etc/letsencrypt/live/your.domain:delegated
-      - ./dockerfiles/certbot/challenge:/var/www/src/certbot/challenge:delegated
+      - ./dockerfiles/certbot/config/ca_signed:/etc/letsencrypt
+      - ./dockerfiles/certbot/challenge:/var/www/src/certbot/challenge
     networks:
       app-net:
         ipv4_address: 172.20.0.10
