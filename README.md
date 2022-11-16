@@ -61,6 +61,7 @@ docker-compose run --rm certbot certonly --webroot -w /var/www/src/certbot/chall
  * The dry-run should return success, when it does you are ready to make a real request which is done by running the same command without the 'dry-run' argument
    * If it fails, the first best troubleshooting step is to create a text file in ```dockerfiles/certbot/challenge/.well-known/acme-challenge``` and attempt to access that via your browser. This is essentially replicating the method that LetsEncrypt is verifying the domain.
  * Upon a successful run of certbot a number of directories & files will have been created within ```dockerfiles/certbot/config/ca_signed``` including the certs
+ * Take ownership of the newly created files and directories. cd to dockerfiles/config. Run ```chown -R <your_user> ca_signed```
  * At this time change the Docker ENVIRONMENT=prod
  * Recreate the nginx container by running the following ```docker-compose up -d --no-deps --force-recreate --build nginx``` 
 
