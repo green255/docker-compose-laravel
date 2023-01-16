@@ -97,6 +97,18 @@ Then, either bring back up your container network or re-run the command you were
 Persistent database storage is enabled out of the box in this configuration. The source volume by default is ```./dockerfiles/mysql``` and otherwise can be found in the mysql section of ```docker-compose.yml```.
 To purge this data simply delete the file(s) within that directory, but leave the .gitignore file.
 
+## Xdebug
+
+Xdebug is configured to start by trigger. That trigger is set with the XDEBUG_TRIGGER variable in the Docker section of the .env
+The procedure forsetting this up is:
+1. make sure the XDEBUG_TRIGGER .env variable is set to the same value that xdebug.trigger_value is as found in the php.xdebug.ini file (in this case 'LETSGO')
+2. build the php or artisan (depending on how you're debugging) container by running ```docker-compose build artisan```
+3. configure your IDE and begin listening
+
+It is fine to use the container in debug mode all the time but it will display a notification once the IDE stops listening for a connection. This notification is both time consuming and annoying. 
+
+To return to a non-debug setup simply change the XDEBUG_TRIGGER .env variable to not match php.xdebug.ini trigger_value and rebuild the container which only takes a moment.  
+
 ## Using BrowserSync with Laravel Mix
 
 If you want to enable the hot-reloading that comes with Laravel Mix's BrowserSync option, you'll have to follow a few small steps. First, ensure that you're using the updated `docker-compose.yml` with the `:3000` and `:3001` ports open on the npm service. Then, add the following to the end of your Laravel project's `webpack.mix.js` file:
