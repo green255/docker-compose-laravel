@@ -97,6 +97,9 @@ Then, either bring back up your container network or re-run the command you were
 Persistent database storage is enabled out of the box in this configuration. The source volume by default is ```./dockerfiles/mysql``` and otherwise can be found in the mysql section of ```docker-compose.yml```.
 To purge this data simply delete the file(s) within that directory, but leave the .gitignore file.
 
+### Database Testing
+A test database is automatically created by running the script within dockerfiles\mysql\
+
 ## Xdebug
 
 Xdebug is configured to start by trigger. That trigger is set with the XDEBUG_TRIGGER variable in the Docker section of the .env

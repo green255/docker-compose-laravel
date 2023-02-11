@@ -54,6 +54,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - ./dockerfiles/mysql:/var/lib/mysql
+      - ./dockerfiles/mysql/init:/docker-entrypoint-initdb.d
     networks:
       app-net:
         ipv4_address: 172.20.0.4
