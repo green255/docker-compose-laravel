@@ -33,7 +33,6 @@ services:
       - php
       - redis
       - mysql
-      - mailhog
     networks:
       app-net:
         ipv4_address: 172.20.0.2
@@ -141,16 +140,6 @@ services:
     networks:
       app-net:
         ipv4_address: 172.20.0.7
-
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: mailhog
-    ports:
-      - "1025:1025"
-      - "8025:8025"
-    networks:
-      app-net:
-        ipv4_address: 172.20.0.5
 
   certbot:
     image: certbot/certbot
